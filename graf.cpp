@@ -72,5 +72,3 @@ void Show(Graph G) {
 		P = NextNode(P);
 	}
 }
-
-
