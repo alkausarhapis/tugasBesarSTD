@@ -30,3 +30,45 @@ void AddNewNode(Graph &G, Addr_Node P) {
 		NextNode(Q) = P;
 	}
 }
+
+Addr_Node FindNode(Graph G, Infotype_Node data) {
+	Addr_Node P = Start(G);
+	while (P != Null && Info(P) != data) {
+		P = NextNode(P);
+	}
+	return P;
+}
+
+void InsertLast_Edge(Graph &G, Addr_Node PNode, Addr_Edge PEdge) {
+	if (FirstEdge(PNode) == Null) {
+		FirstEdge(PNode) = PEdge;
+	} else {
+		Addr_Edge Q = FirstEdge(PNode);
+		while (NextEdge(Q) != Null) {
+			Q = NextEdge(Q);
+		}
+		NextEdge(Q) = PEdge;
+	}
+}
+
+void Connecting(Graph &G, Infotype_Node node1, Infotype_Node node2, Infotype_Edge distance) {
+	Addr_Node P1 = FindNode(G, node1);
+	Addr_Node P2 = FindNode(G, node2);
+	if (P1 != Null && P2 != Null) {
+		Addr_Edge E1 = AlokasiEdge(distance);
+		InsertLast_Edge(G, P1, E1);
+	}
+}
+
+void Show(Graph G) {
+	Addr_Node P = Start(G);
+	while (P != Null) {
+		cout << "Gedung " << Info(P) << " terhubung ke:\n";
+		Addr_Edge E = FirstEdge(P);
+		while (E != Null) {
+			cout << "  Jarak: " << Info(E) << endl;
+			E = NextEdge(E);
+		}
+		P = NextNode(P);
+	}
+}
