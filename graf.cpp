@@ -194,6 +194,7 @@ void FindShortestPath(Graph G, Infotype_Node nodes[], int nodeCount) {
     cout << "Jarak total: " << totalDistance << endl;
 }
 
+
 // Fungsi untuk menu
 void DisplayMenu() {
     cout << "================[MENU]================" << endl;
@@ -259,6 +260,7 @@ void displayMapMenu(Graph G){
     FindShortestPath(G, nodes, nodeCount);
 }
 
+
 void BlockRoadMenu(Graph G) {
     Infotype_Node node1, node2;
     displayMapMenu(G);
@@ -281,3 +283,51 @@ void BlockRoadMenu(Graph G) {
     Show(G);
     cout << "===================================================================" << endl;
 }
+
+void AddBuildingAndRoadMenu(Graph &G) {
+    string newBuilding;
+    cout << "Masukkan nama gedung baru: ";
+    cin >> newBuilding;
+
+    // Tambahkan gedung baru ke graf
+    Addr_Node newBuildingNode = AlokasiNode(newBuilding);
+    AddNewNode(G, newBuildingNode);
+    cout << "Gedung " << newBuilding << " berhasil ditambahkan.\n";
+
+    char addRoadChoice;
+    do {
+        string connectedBuilding;
+        int weight;
+
+        // Tampilkan daftar gedung yang sudah ada
+        cout << "\nDaftar gedung yang tersedia:\n";
+        DisplayBuildings(G);
+
+        // Masukkan nama gedung yang akan dihubungkan
+        do {
+            cout << "Masukkan nama gedung yang akan dihubungkan dengan " << newBuilding << ": ";
+            cin >> connectedBuilding;
+
+            if (FindNode(G, connectedBuilding) == Null) {
+                cout << "Gedung " << connectedBuilding << " tidak ditemukan! Harap masukkan ulang.\n";
+            }
+        } while (FindNode(G, connectedBuilding) == Null);
+
+        // Masukkan jarak antara kedua gedung
+        cout << "Masukkan jarak antara " << newBuilding << " dan " << connectedBuilding << ": ";
+        while (!(cin >> weight) || weight <= 0) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Input tidak valid! Masukkan jarak yang benar: ";
+        }
+
+        // Hubungkan kedua gedung
+        Connecting(G, newBuilding, connectedBuilding, weight);
+        cout << "Gedung " << newBuilding << " berhasil dihubungkan dengan " << connectedBuilding << " dengan jarak " << weight << ".\n";
+
+        // Tanyakan apakah ingin menambahkan jalan lagi
+        cout << "Apakah Anda ingin menambahkan jalan lain untuk " << newBuilding << "? (y/n): ";
+        cin >> addRoadChoice;
+    } while (addRoadChoice == 'y' || addRoadChoice == 'Y');
+}
+
