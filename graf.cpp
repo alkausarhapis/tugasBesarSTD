@@ -1,6 +1,5 @@
 #include "graf.h"
 
-// Implementasi fungsi dasar graf
 void CreateGraph(Graph &G) {
     Start(G) = Null;
 }
@@ -299,11 +298,11 @@ void AddBuildingAndRoadMenu(Graph &G) {
         string connectedBuilding;
         int weight;
 
-        // Tampilkan daftar gedung yang sudah ada
+        
         cout << "\nDaftar gedung yang tersedia:\n";
         DisplayBuildings(G);
 
-        // Masukkan nama gedung yang akan dihubungkan
+        
         do {
             cout << "Masukkan nama gedung yang akan dihubungkan dengan " << newBuilding << ": ";
             cin >> connectedBuilding;
@@ -313,7 +312,7 @@ void AddBuildingAndRoadMenu(Graph &G) {
             }
         } while (FindNode(G, connectedBuilding) == Null);
 
-        // Masukkan jarak antara kedua gedung
+       
         cout << "Masukkan jarak antara " << newBuilding << " dan " << connectedBuilding << ": ";
         while (!(cin >> weight) || weight <= 0) {
             cin.clear();
@@ -321,11 +320,11 @@ void AddBuildingAndRoadMenu(Graph &G) {
             cout << "Input tidak valid! Masukkan jarak yang benar: ";
         }
 
-        // Hubungkan kedua gedung
+        
         Connecting(G, newBuilding, connectedBuilding, weight);
         cout << "Gedung " << newBuilding << " berhasil dihubungkan dengan " << connectedBuilding << " dengan jarak " << weight << ".\n";
 
-        // Tanyakan apakah ingin menambahkan jalan lagi
+        
         cout << "Apakah Anda ingin menambahkan jalan lain untuk " << newBuilding << "? (y/n): ";
         cin >> addRoadChoice;
     } while (addRoadChoice == 'y' || addRoadChoice == 'Y');
