@@ -1,3 +1,6 @@
+#ifndef GRAF_H_INCLUDED
+#define GRAF_H_INCLUDED
+
 #include <iostream>
 
 using namespace std;
@@ -48,14 +51,12 @@ void Show(Graph G);
 
 // Fungsi untuk menu
 void DisplayMenu();
-void DisplayRuteMenu();
+void displayMapMenu(Graph G);
 void DisplayBuildings(Graph G);
 void FindShortestPathMenu(Graph G);
-void FindAllRoutesMenu(Graph G);
 void BlockRoadMenu(Graph G);
 
 // Navigasi graf
 void FindShortestPath(Graph G, Infotype_Node start, Infotype_Node end);
-void DFS_AllRoutes(Graph G, Infotype_Node start, Infotype_Node end,
-                   Infotype_Node path[], int &pathLen,
-                   Infotype_Node routes[][100], int &routeCount);
+
+#endif // GRAF_H_INCLUDED

@@ -103,34 +103,106 @@ void Show(Graph G) {
     }
 }
 
-// Fungsi navigasi
-void FindShortestPath(Graph G, Infotype_Node start, Infotype_Node end) {
-    cout << ">> (Simulasi jalur tercepat belum diimplementasikan)" << endl;
-}
+void FindShortestPath(Graph G, Infotype_Node nodes[], int nodeCount) {
+    const int INF = 1000000;
+    Infotype_Node graphNodes[100];
+    int distances[100];
+    int predecessors[100];
+    bool visited[100];
+    int totalNodes = 0;
 
-void DFS_AllRoutes(Graph G, Infotype_Node start, Infotype_Node end,
-                   Infotype_Node path[], int &pathLen,
-                   Infotype_Node routes[][100], int &routeCount) {
-    cout << ">> (Simulasi semua rute belum diimplementasikan)" << endl;
+    Addr_Node P = Start(G);
+    while (P != Null) {
+        graphNodes[totalNodes] = Info(P);
+        totalNodes++;
+        P = NextNode(P);
+    }
+
+    int totalDistance = 0;
+    for (int i = 0; i < nodeCount - 1; i++) {
+        for (int j = 0; j < totalNodes; j++) {
+            distances[j] = INF;
+            visited[j] = false;
+            predecessors[j] = -1;
+        }
+
+        int startIndex = -1, endIndex = -1;
+        for (int j = 0; j < totalNodes; j++) {
+            if (graphNodes[j] == nodes[i]) startIndex = j;
+            if (graphNodes[j] == nodes[i + 1]) endIndex = j;
+        }
+
+        if (startIndex == -1 || endIndex == -1) {
+            cout << "Node tidak ditemukan!" << endl;
+            return;
+        }
+
+        distances[startIndex] = 0;
+
+        for (int j = 0; j < totalNodes; j++) {
+            int minDistance = INF, currentIndex = -1;
+            for (int k = 0; k < totalNodes; k++) {
+                if (!visited[k] && distances[k] < minDistance) {
+                    minDistance = distances[k];
+                    currentIndex = k;
+                }
+            }
+
+            if (currentIndex == -1) break;
+            visited[currentIndex] = true;
+
+            Addr_Node currentNode = FindNode(G, graphNodes[currentIndex]);
+            Addr_Edge edge = FirstEdge(currentNode);
+
+            while (edge != Null) {
+                Infotype_Node neighbor = Info(edge).destination;
+                int weight = Info(edge).weight;
+
+                int neighborIndex = -1;
+                for (int k = 0; k < totalNodes; k++) {
+                    if (graphNodes[k] == neighbor) {
+                        neighborIndex = k;
+                        break;
+                    }
+                }
+
+                if (!visited[neighborIndex] && distances[currentIndex] + weight < distances[neighborIndex]) {
+                    distances[neighborIndex] = distances[currentIndex] + weight;
+                    predecessors[neighborIndex] = currentIndex;
+                }
+
+                edge = NextEdge(edge);
+            }
+        }
+
+        if (distances[endIndex] == INF) {
+            cout << "Tidak ada jalur dari " << nodes[i] << " ke " << nodes[i + 1] << ".\n";
+            return;
+        }
+
+        totalDistance += distances[endIndex];
+        cout << "Jalur dari " << nodes[i] << " ke " << nodes[i + 1] << ": ";
+        int current = endIndex;
+        while (current != -1) {
+            cout << graphNodes[current];
+            current = predecessors[current];
+            if (current != -1) cout << " <- ";
+        }
+        cout << " (Jarak: " << distances[endIndex] << ")\n";
+    }
+
+    cout << "Jarak total: " << totalDistance << endl;
 }
 
 // Fungsi untuk menu
 void DisplayMenu() {
     cout << "================[MENU]================" << endl;
-    cout << "1. Mencari rute" << endl;
-    cout << "2. Pemblokiran jalan" << endl;
-    cout << "3. Menambahkan gedung & jalan" << endl;
-    cout << "4. Keluar" << endl;
+    cout << "1. Mencari rute terpendek" << endl;
+    cout << "2. Tampilkan peta" << endl;
+    cout << "3. Pemblokiran jalan" << endl;
+    cout << "4. Menambahkan gedung & jalan" << endl;
+    cout << "5. Keluar" << endl;
     cout << "======================================" << endl;
-    cout << "> ";
-}
-
-void DisplayRuteMenu() {
-    cout << "==============[RUTE]==============" << endl;
-    cout << "1. Rute tercepat" << endl;
-    cout << "2. Tampilkan semua rute" << endl;
-    cout << "3. Kembali" << endl;
-    cout << "==================================" << endl;
     cout << "> ";
 }
 
@@ -144,37 +216,64 @@ void DisplayBuildings(Graph G) {
     cout << "=====================================================" << endl;
 }
 
-void FindShortestPathMenu(Graph G) {
-    Infotype_Node start, end;
-    cout << "> Titik 1 (tulis kode gedungnya): ";
-    cin >> start;
-    cout << "> Titik 2 (tulis kode gedungnya): ";
-    cin >> end;
-
-    FindShortestPath(G, start, end);
+void displayMapMenu(Graph G){
+    cout << "=====================[Peta]=====================" << endl;
+    Show(G);
+    cout << "================================================" << endl;
 }
 
-void FindAllRoutesMenu(Graph G) {
-    Infotype_Node start, end;
-    cout << "> Titik 1 (tulis kode gedungnya): ";
-    cin >> start;
-    cout << "> Titik 2 (tulis kode gedungnya): ";
-    cin >> end;
+ void FindShortestPathMenu(Graph G) {
+    int totalNodes = 0;
+    Addr_Node P = Start(G);
+    while (P != Null) {
+        totalNodes++;
+        P = NextNode(P);
+    }
 
-    Infotype_Node path[100], routes[100][100];
-    int pathLen = 0, routeCount = 0;
+    cout << "Jumlah gedung yang tersedia: " << totalNodes << endl;
 
-    DFS_AllRoutes(G, start, end, path, pathLen, routes, routeCount);
+    int nodeCount;
+    do {
+        cout << "> Masukkan jumlah titik yang dilalui: ";
+        cin >> nodeCount;
+
+        if (cin.fail() || nodeCount <= 0) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Input tidak valid! Harap masukkan ulang.\n";
+        }
+    } while (cin.fail() || nodeCount <= 0);
+
+    Infotype_Node nodes[100];
+    for (int i = 0; i < nodeCount; i++) {
+        do {
+            cout << "> Titik " << i + 1 << " (tulis kode gedungnya): ";
+            cin >> nodes[i];
+
+            if (FindNode(G, nodes[i]) == Null) {
+                cout << "Kode gedung " << nodes[i] << " tidak ditemukan! Harap masukkan ulang.\n";
+            }
+        } while (FindNode(G, nodes[i]) == Null);
+    }
+
+    FindShortestPath(G, nodes, nodeCount);
 }
 
 void BlockRoadMenu(Graph G) {
     Infotype_Node node1, node2;
-    cout << "=====================[Peta]=====================" << endl;
-    Show(G);
-    cout << "================================================" << endl;
+    displayMapMenu(G);
 
-    cout << "> Jalan yang ingin diblokir (tulis kode gedung, contoh: A B): ";
-    cin >> node1 >> node2;
+    bool validInput = false;
+    do {
+        cout << "> Jalan yang ingin diblokir (tulis kode gedung, contoh: TULT CAC): ";
+        cin >> node1 >> node2;
+
+        if (FindNode(G, node1) == Null || FindNode(G, node2) == Null) {
+            cout << "Salah satu atau kedua kode gedung tidak ditemukan! Harap masukkan ulang.\n";
+        } else {
+            validInput = true;
+        }
+    } while (!validInput);
 
     Disconnect(G, node1, node2);
 
