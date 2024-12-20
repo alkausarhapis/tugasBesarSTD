@@ -55,6 +55,7 @@ void displayMapMenu(Graph G);
 void DisplayBuildings(Graph G);
 void FindShortestPathMenu(Graph G);
 void BlockRoadMenu(Graph G);
+void AddBuildingAndRoadMenu(Graph &G);
 
 // Navigasi graf
 void FindShortestPath(Graph G, Infotype_Node start, Infotype_Node end);

@@ -51,7 +51,7 @@ int main() {
                 BlockRoadMenu(G);
                 break;
             case 4:
-                cout << "Fitur menambahkan gedung & jalan belum tersedia." << endl;
+                AddBuildingAndRoadMenu(G);
                 break;
             case 5:
                 cout << "Keluar dari sistem." << endl;
