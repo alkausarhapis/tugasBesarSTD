@@ -2,21 +2,27 @@
 #define GRAF_H_INCLUDED
 
 #include <iostream>
-#include <string>
+
 using namespace std;
 
-#define Null     		NULL
-#define Info(P)  		(P)->Info
-#define NextNode(P)  	(P)->NextNode
-#define NextEdge(P)  	(P)->NextEdge
-#define FirstEdge(P) 	(P)->FirstEdge
-#define Start(G) 		(G).Start
+#define Null nullptr
+#define Info(P) (P)->Info
+#define NextNode(P) (P)->NextNode
+#define NextEdge(P) (P)->NextEdge
+#define FirstEdge(P) (P)->FirstEdge
+#define Start(G) (G).Start
 
+typedef struct vElmt Elmt_Node;
+typedef struct eElmt Elmt_Edge;
+typedef Elmt_Node* Addr_Node;
+typedef Elmt_Edge* Addr_Edge;
 
+typedef string Infotype_Node;
+typedef struct {
+    Infotype_Node destination;
+    int weight;
+} Infotype_Edge;
 
-<<<<<<< Updated upstream
-#endif // GRAF_H_INCLUDED
-=======
 typedef struct {
     Addr_Node Start;
 } Graph;
@@ -52,4 +58,5 @@ void BlockRoadMenu(Graph G);
 
 // Navigasi graf
 void FindShortestPath(Graph G, Infotype_Node start, Infotype_Node end);
->>>>>>> Stashed changes
+
+#endif // GRAF_H_INCLUDED

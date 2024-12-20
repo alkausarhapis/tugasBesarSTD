@@ -2,19 +2,17 @@
 
 int main() {
     Graph G;
-	CreateGraph(G);
+    CreateGraph(G);
 
-	AddNewNode(G, AlokasiNode("GKU"));
-	AddNewNode(G, AlokasiNode("TULT"));
-	AddNewNode(G, AlokasiNode("DMR"));
-	AddNewNode(G, AlokasiNode("CAC"));
-	AddNewNode(G, AlokasiNode("REK"));
-	AddNewNode(G, AlokasiNode("TUCH"));
-	AddNewNode(G, AlokasiNode("TMED"));
+    AddNewNode(G, AlokasiNode("TULT"));
+    AddNewNode(G, AlokasiNode("TUCH"));
+    AddNewNode(G, AlokasiNode("PAR"));
+    AddNewNode(G, AlokasiNode("GKU"));
+    AddNewNode(G, AlokasiNode("REK"));
+    AddNewNode(G, AlokasiNode("CAC"));
+    AddNewNode(G, AlokasiNode("DMR"));
+    AddNewNode(G, AlokasiNode("TMED"));
 
-<<<<<<< Updated upstream
-	return 0;
-=======
     Connecting(G, "TULT", "TUCH", 7);
     Connecting(G, "TULT", "TMED", 10);
     Connecting(G, "TULT", "PAR", 6);
@@ -65,5 +63,4 @@ int main() {
     } while (menuChoice != 5);
 
     return 0;
->>>>>>> Stashed changes
 }
