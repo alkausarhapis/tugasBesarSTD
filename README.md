@@ -1,0 +1,1 @@
+Telkom University kampus Bandung memiliki beberapa gedung dan jalan penghubung di antara gedung-gedung tersebut. Setiap gedung adalah node, dan jalan penghubung antar gedung adalah edge. Anda bertugas membangun sistem navigasi untuk membantu pengguna menemukan rute terpendek di antara gedung-gedung di kampus.
