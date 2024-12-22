@@ -38,7 +38,7 @@ struct eElmt {
     Addr_Edge NextEdge;
 };
 
-// Fungsi dasar graf
+// Fungsi primitif graf
 void CreateGraph(Graph &G);
 Addr_Node AlokasiNode(Infotype_Node infoNode);
 Addr_Edge AlokasiEdge(Infotype_Edge infoEdge);
@@ -50,14 +50,14 @@ void Disconnect(Graph &G, Infotype_Node node1, Infotype_Node node2);
 void Show(Graph G);
 
 // Fungsi untuk menu
-void DisplayMenu();
+void DisplayMenuAdmin();
+void DisplayMenuPengguna();
 void displayMapMenu(Graph G);
 void DisplayBuildings(Graph G);
 void FindShortestPathMenu(Graph G);
 void BlockRoadMenu(Graph G);
 void AddBuildingAndRoadMenu(Graph &G);
 
-// Navigasi graf
 void FindShortestPath(Graph G, Infotype_Node start, Infotype_Node end);
 
 #endif // GRAF_H_INCLUDED
